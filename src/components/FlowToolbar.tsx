@@ -1,6 +1,9 @@
 import { ChainIcon, ActionIcon, ChainQueryIcon } from './Icons/icons';
+import { useReactFlow } from 'reactflow';
 
 export const FlowToolbar = () => {
+  const reactFlowInstance = useReactFlow();
+
   const nodeTypes = [
     { 
       id: 'chain', 
@@ -45,7 +48,7 @@ export const FlowToolbar = () => {
       data: { label: type }
     };
 
-    onAddNode(newNode);
+    reactFlowInstance.addNodes(newNode);
   };
 
   return (

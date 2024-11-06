@@ -12,15 +12,15 @@ const TopNav= () => {
         onMouseLeave={() => setShowWeb3Toolbar(false)}
       >
         <span className="text-xl">⬡</span>
-        <span>Web3</span>
+        <span>Sui</span>
         
         {showWeb3Toolbar && (
-          <div 
-            className="absolute top-full left-0 mt-2 bg-white text-gray-800 rounded-lg shadow-lg p-2"
-            onMouseEnter={() => setShowWeb3Toolbar(true)}
-            onMouseLeave={() => setShowWeb3Toolbar(false)}
-          >
-            <FlowToolbar />
+          <div className="absolute top-full left-0">
+            <div 
+              className="mt-2 bg-white text-gray-800 rounded-lg shadow-lg p-2"
+            >
+              <FlowToolbar />
+            </div>
           </div>
         )}
       </div>
