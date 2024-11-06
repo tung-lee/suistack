@@ -7,11 +7,13 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   addEdge,
+  ReactFlowProvider,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import ActionNode from './ActionNode';
 import ChainNode from './ChainNode';
 import QueryNode from './QueryNode';
+import TopNav from './TopNav';
 
 const nodeTypes = {
   action: ActionNode,
@@ -45,7 +47,7 @@ const initialEdges: Edge[] = [
   { id: 'e2-3', source: '2', target: '3', animated: true },
 ];
 
-const ActionFlow = () => {
+const Flow = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
@@ -55,20 +57,33 @@ const ActionFlow = () => {
   );
 
   return (
-    <div style={{ width: '100%', height: '100vh' }}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        fitView
-      >
-        <Background />
-        <Controls />
-      </ReactFlow>
-    </div>
+    <>
+      <TopNav />
+      <div className="flow-container">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          fitView
+          snapToGrid
+          snapGrid={[15, 15]}
+        >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </div>
+    </>
+  );
+};
+
+const ActionFlow = () => {
+  return (
+    <ReactFlowProvider>
+      <Flow />
+    </ReactFlowProvider>
   );
 };
 
