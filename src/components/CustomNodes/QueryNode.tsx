@@ -1,7 +1,7 @@
 import React from 'react';
 import { Handle, Position } from 'reactflow';
 
-const QueryNode = () => {
+export const QueryNode = () => {
   return (
     <div className="node-container query-node">
       <Handle type="target" position={Position.Left} />
@@ -20,5 +20,3 @@ const QueryNode = () => {
     </div>
   );
 };
-
-export default QueryNode; 

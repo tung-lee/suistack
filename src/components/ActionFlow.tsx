@@ -10,24 +10,22 @@ import ReactFlow, {
   ReactFlowProvider,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import ActionNode from './ActionNode';
-import ChainNode from './ChainNode';
-import QueryNode from './QueryNode';
+import { ActionNode } from './CustomNodes/ActionNode';
+import { QueryNode } from './CustomNodes/QueryNode';
 import TopNav from './TopNav';
+import { CodeNode } from './CustomNodes/CodeNode';
+import { BuildNode } from './CustomNodes/BuildNode';
+import { PublishNode } from './CustomNodes/PublishNode';
 
 const nodeTypes = {
+  code: CodeNode,
+  build: BuildNode,
+  publish: PublishNode,
   action: ActionNode,
-  chain: ChainNode,
   query: QueryNode,
 };
 
 const initialNodes: Node[] = [
-  {
-    id: '1',
-    type: 'chain',
-    position: { x: 100, y: 100 },
-    data: { label: 'Select Chain' },
-  },
   {
     id: '2',
     type: 'action',

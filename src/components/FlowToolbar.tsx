@@ -1,40 +1,40 @@
-import { ChainIcon, ActionIcon, ChainQueryIcon } from './Icons/icons';
+import { ActionIcon, BuildIcon, ChainQueryIcon, CodeIcon, PublishIcon } from './Icons/icons';
 import { useReactFlow } from 'reactflow';
 
 export const FlowToolbar = () => {
   const reactFlowInstance = useReactFlow();
 
   const nodeTypes = [
-    { 
-      id: 'chain', 
-      label: 'Chain', 
-      icon: <ChainIcon className="h-6 w-6" fillColor="#6B7280" /> 
+    {
+      id: 'code',
+      label: 'Code',
+      icon: <CodeIcon className="h-6 w-6" fillColor="#6B7280" />
     },
-    { 
-      id: 'chainTx', 
-      label: 'Chain TX', 
-      icon: <ChainIcon className="h-6 w-6" fillColor="#6B7280" /> 
+    {
+      id: 'build',
+      label: 'Build',
+      icon: <BuildIcon className="h-6 w-6" fillColor="#6B7280" />
     },
-    { 
-      id: 'chainQuery', 
-      label: 'Chain Query', 
-      icon: <ChainQueryIcon className="h-6 w-6" fillColor="#6B7280" /> 
+    {
+      id: 'publish',
+      label: 'Publish',
+      icon: <PublishIcon className="h-6 w-6" fillColor="#6B7280" />
     },
-    { 
-      id: 'action', 
-      label: 'Action', 
-      icon: <ActionIcon className="h-6 w-6" fillColor="#6B7280" /> 
+    // {
+    //   id: 'chainTx',
+    //   label: 'Chain TX',
+    //   icon: <ChainIcon className="h-6 w-6" fillColor="#6B7280" />
+    // },
+    // {
+    //   id: 'chainQuery',
+    //   label: 'Chain Query',
+    //   icon: <ChainQueryIcon className="h-6 w-6" fillColor="#6B7280" />
+    // },
+    {
+      id: 'action',
+      label: 'Action',
+      icon: <ActionIcon className="h-6 w-6" fillColor="#6B7280" />
     },
-    { 
-      id: 'lightClient', 
-      label: 'Light Client', 
-      icon: <ChainIcon className="h-6 w-6" fillColor="#6B7280" /> 
-    },
-    { 
-      id: 'blinkBuilder', 
-      label: 'Blink Builder', 
-      icon: '🔗' 
-    }
   ];
 
   const handleAddNode = (type: string) => {

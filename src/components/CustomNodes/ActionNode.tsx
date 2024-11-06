@@ -12,7 +12,7 @@ const actions = [
   { id: 'xTransfer', label: 'xTransfer' },
 ];
 
-const ActionNode = () => {
+export const ActionNode = () => {
   return (
     <div className="node-container">
       <Handle type="target" position={Position.Left} />
@@ -30,5 +30,3 @@ const ActionNode = () => {
     </div>
   );
 };
-
-export default ActionNode; 
