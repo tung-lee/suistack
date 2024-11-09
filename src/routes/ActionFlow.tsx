@@ -10,12 +10,13 @@ import ReactFlow, {
   ReactFlowProvider,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { ActionNode } from './CustomNodes/ActionNode';
-import { QueryNode } from './CustomNodes/QueryNode';
-import TopNav from './TopNav';
-import { CodeNode } from './CustomNodes/CodeNode';
-import { BuildNode } from './CustomNodes/BuildNode';
-import { PublishNode } from './CustomNodes/PublishNode';
+import { ActionNode } from '../components/CustomNodes/ActionNode';
+import { QueryNode } from '../components/CustomNodes/QueryNode';
+import TopNav from '../components/TopNav';
+import { CodeNode } from '../components/CustomNodes/CodeNode';
+import { BuildNode } from '../components/CustomNodes/BuildNode';
+import { PublishNode } from '../components/CustomNodes/PublishNode';
+import Sidebar from '../components/sidebar/Sidebar';
 
 const nodeTypes = {
   code: CodeNode,
@@ -56,6 +57,7 @@ const Flow = () => {
 
   return (
     <>
+      <Sidebar />
       <TopNav />
       <div className="flow-container">
         <ReactFlow
