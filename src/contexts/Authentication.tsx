@@ -67,7 +67,7 @@ export const AuthenticationProvider = ({ children }: ChildrenProps) => {
       setUser(anonymousUser);
     }
     setIsLoading(false);
-  }, [handleLoginAs, router]);
+  }, [router]);
 
   const handleLogout = () => {
     setUser(anonymousUser);

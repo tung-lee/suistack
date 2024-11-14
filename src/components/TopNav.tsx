@@ -40,8 +40,10 @@ const TopNav = () => {
   };
   return (
     <div className="flex justify-between absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full px-4">
-      <div>Logo</div>
-      <div className="  bg-blue-500 text-white rounded-full p-1 flex gap-2 ">
+      <div>
+        <img src="/suistack2.png" alt="logo" className="w-30 h-10" />
+      </div>
+      <div className="  bg-custom-gradient text-white rounded-full p-1 flex gap-2 ">
         <div
           className="relative flex items-center gap-2 px-4 py-2 hover:bg-blue-600 rounded-full cursor-pointer group"
           onMouseEnter={() => setShowWeb3Toolbar(true)}
@@ -68,8 +70,8 @@ const TopNav = () => {
         </div>
       </div>
       <div className="flex items-center gap-2">
-        <button className="bg-gray-200 text-blue-500 rounded-full px-4 py-2" onClick={handleExecute}>Run</button>
-        <button className="bg-blue-500 text-white rounded-full px-4 py-2">Save</button>
+        <button className="bg-transparent border-2 border-solid border-black rounded-lg px-4 py-2" onClick={handleExecute}>Run</button>
+        <button className="bg-custom-gradient text-white rounded-lg px-4 py-2">Save</button>
         {/* <SignInButton /> */}
       </div>
 
