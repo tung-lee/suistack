@@ -4,9 +4,11 @@ import SignInButton from "./common/SigninButton";
 import { useCustomWallet } from "../contexts/CustomWallet";
 import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
+import CommingToolbar from "./CommingToolbar";
 
 const TopNav = () => {
   const [showWeb3Toolbar, setShowWeb3Toolbar] = useState(false);
+  const [showCommingSoon, setShowCommingSoon] = useState(false);
   const { address, executeTransactionBlockWithoutSponsorship } = useCustomWallet();
   const handleExecute = async (): Promise<SuiTransactionBlockResponse> => {
     const recipient = address!;
@@ -64,9 +66,15 @@ const TopNav = () => {
           <span className="text-xl">🌐</span>
           <span>Web2</span>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 hover:bg-blue-600 rounded-full cursor-pointer">
-          <span className="text-xl">⋈</span>
+        <div className="flex items-center gap-2 px-4 py-2 hover:bg-blue-600 rounded-full cursor-pointer" onMouseEnter={() => setShowCommingSoon(true)} onMouseLeave={() => setShowCommingSoon(false)}>
           <span>Apps</span>
+          {showCommingSoon && (
+            <div className="absolute top-full left-46">
+              <div className="mt-2 bg-white text-gray-800 rounded-lg shadow-lg p-2">
+                <CommingToolbar />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-2">
