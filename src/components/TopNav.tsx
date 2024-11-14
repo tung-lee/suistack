@@ -4,9 +4,11 @@ import SignInButton from "./common/SigninButton";
 import { useCustomWallet } from "../contexts/CustomWallet";
 import { SuiTransactionBlockResponse } from "@mysten/sui/client";
 import { Transaction } from "@mysten/sui/transactions";
+import CommingToolbar from "./CommingToolbar";
 
 const TopNav = () => {
   const [showWeb3Toolbar, setShowWeb3Toolbar] = useState(false);
+  const [showCommingSoon, setShowCommingSoon] = useState(false);
   const { address, executeTransactionBlockWithoutSponsorship } = useCustomWallet();
   const handleExecute = async (): Promise<SuiTransactionBlockResponse> => {
     const recipient = address!;
@@ -41,7 +43,7 @@ const TopNav = () => {
   return (
     <div className="flex justify-between absolute top-4 left-1/2 -translate-x-1/2 z-50 w-full px-4">
       <div>
-        <img src="/suistack2.png" alt="logo" className="w-30 h-10" />
+        <img src="/SUI_STACK_LOGO.png" alt="logo" className="w-30 h-10" />
       </div>
       <div className="  bg-custom-gradient text-white rounded-full p-1 flex gap-2 ">
         <div
@@ -49,7 +51,7 @@ const TopNav = () => {
           onMouseEnter={() => setShowWeb3Toolbar(true)}
           onMouseLeave={() => setShowWeb3Toolbar(false)}
         >
-          <span className="text-xl">⬡</span>
+          <img src="/sui.png" alt="sui" className="w-4 h-4" />
           <span>Sui</span>
 
           {showWeb3Toolbar && (
@@ -62,11 +64,17 @@ const TopNav = () => {
         </div>
         <div className="flex items-center gap-2 px-4 py-2 hover:bg-blue-600 rounded-full cursor-pointer">
           <span className="text-xl">🌐</span>
-          <span>Web2</span>
+          <span>Sui Stack</span>
         </div>
-        <div className="flex items-center gap-2 px-4 py-2 hover:bg-blue-600 rounded-full cursor-pointer">
-          <span className="text-xl">⋈</span>
+        <div className="flex items-center gap-2 px-4 py-2 hover:bg-blue-600 rounded-full cursor-pointer" onMouseEnter={() => setShowCommingSoon(true)} onMouseLeave={() => setShowCommingSoon(false)}>
           <span>Apps</span>
+          {showCommingSoon && (
+            <div className="absolute top-full left-46">
+              <div className="mt-2 bg-white text-gray-800 rounded-lg shadow-lg p-2">
+                <CommingToolbar />
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex items-center gap-2">

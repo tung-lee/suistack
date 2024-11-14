@@ -5,8 +5,10 @@ import {
   useNodesState,
   useEdgesState,
   addEdge,
+  MarkerType,
 } from 'reactflow';
 import { useAppSelector } from '../redux/hooks';
+import { useNodes } from '@xyflow/react';
 
 interface FlowContextType {
   nodes: Node[];
@@ -45,24 +47,26 @@ export const FlowProvider = ({ children }: { children: React.ReactNode }) => {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const {publish,build}=useAppSelector(state=>state.build)
+
   const onConnect = useCallback(
     (params) => setEdges((eds) => addEdge(params, eds)),
     [setEdges]
   );
   const addSuccessNode=(nodeNew:Node, nodeId:string)=>{
-    console.log(nodeId)
-    console.log(nodeNew)
-    const newEdge={id:`e${nodeId}-${nodeNew.id}`,source:nodeId,target:nodeNew.id}
+    // console.log(nodeId)
+    // console.log(nodeNew)
+    const newEdge={id:`e${nodeId}-${nodeNew.id}`,source:nodeId,target:nodeNew.id,type:"custom",markerEnd:{type:MarkerType.Arrow}}
     setNodes((nds)=>[...nds,nodeNew])
     setEdges((eds)=>[...eds,newEdge])
   }
   useEffect(()=>{
     if(publish!==null){
+      const sourceNode=nodes.find((node)=>node.id===build.currentBuildNode)
       publish.functions.forEach((func, index) => {
         const functionNode = {
           id: `function-${Date.now()}`,
           type: 'function',
-          position: { x: 400, y: 200 + (index * 100) },
+          position: { x: (sourceNode?.position.x??0)+500, y: (sourceNode?.position.y??0)+(index*100) },
           data: func
         };
         
@@ -74,9 +78,11 @@ export const FlowProvider = ({ children }: { children: React.ReactNode }) => {
           id: `edge-${functionNode.id}`,
           source: build.currentBuildNode, // Node nguồn (build node)
           target: functionNode.id, // Node đích (function node)
-          type: 'smoothstep'
+          type: 'custom',
+          markerEnd: { type: MarkerType.Arrow },
+          
         };
-        setEdges((prevEdges) => [...prevEdges, newEdge]);
+        setEdges((eds) => addEdge(newEdge, eds));
       });
     }
   },[publish])

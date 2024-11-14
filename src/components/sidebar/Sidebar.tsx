@@ -23,7 +23,7 @@ const Sidebar = () => {
       </button>
 
       <div className={`absolute left-0 w-30 bg-white/90 backdrop-blur-sm text-blue-500 
-        shadow-lg h-[300px] transition-all duration-300 ease-in-out  rounded-lg
+        shadow-lg h-[200px] transition-all duration-300 ease-in-out  rounded-lg
         ${isOpen ? 'animate-slideDown' : 'animate-slideUp'}`}
       >
         <div className="flex flex-col py-4 justify-between h-full">
@@ -47,10 +47,7 @@ const Sidebar = () => {
             <FaBook className="mr-2" />
             Scenario
           </button>
-          <button className="flex items-center px-4 py-2 ">
-            <FaBook className="mr-2" />
-            Publish
-          </button>
+      
         </div>
       </div>
     </div>
