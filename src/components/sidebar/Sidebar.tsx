@@ -15,7 +15,7 @@ const Sidebar = () => {
     <div className="fixed left-5 top-[10rem] z-50">
       <button
         onClick={toggleSidebar}
-        className={`bg-blue-500 text-white p-3 rounded-full transition-transform duration-300 ${
+        className={`bg-custom-gradient text-white p-3 rounded-full transition-transform duration-300 ${
           isOpen ? 'rotate-180' : ''
         }`}
       >
@@ -23,7 +23,7 @@ const Sidebar = () => {
       </button>
 
       <div className={`absolute left-0 w-30 bg-white/90 backdrop-blur-sm text-blue-500 
-        shadow-lg h-[300px] transition-all duration-300 ease-in-out 
+        shadow-lg h-[300px] transition-all duration-300 ease-in-out  rounded-lg
         ${isOpen ? 'animate-slideDown' : 'animate-slideUp'}`}
       >
         <div className="flex flex-col py-4 justify-between h-full">

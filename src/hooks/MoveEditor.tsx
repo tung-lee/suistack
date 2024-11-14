@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import MonacoEditor from '@monaco-editor/react';
+import MonacoEditor, { Editor } from '@monaco-editor/react';
 interface Pros{
   code:string,
   setCode:React.Dispatch<React.SetStateAction<string>>
@@ -94,6 +94,7 @@ const MoveEditor = ({ code, setCode }:Pros) => {
         automaticLayout: true,
       }}
     />
+   
   );
 };
 

@@ -29,7 +29,7 @@ export interface ExecuteSponsoredTransactionApiInput {
 
 interface SponsorAndExecuteTransactionBlockProps {
   tx: Transaction;
-  network: "mainnet" | "testnet";
+  network: "mainnet" | "testnet"|"devnet";
   options: SuiTransactionBlockResponseOptions;
   includesTransferTx: boolean;
   allowedAddresses?: string[];
@@ -37,6 +37,10 @@ interface SponsorAndExecuteTransactionBlockProps {
 
 interface ExecuteTransactionBlockWithoutSponsorshipProps {
   tx: Transaction;
+  network: "mainnet" | "testnet"|"devnet";
+  includesTransferTx: boolean;
+  allowedAddresses?: string[];
+
   options: SuiTransactionBlockResponseOptions;
 }
 interface CustomWalletContextProps {
@@ -134,7 +138,7 @@ export default function CustomWalletProvider({children}: {children: React.ReactN
         picture: "",
       });  
     }
-  }, [isConnected, isWalletConnected, handleLoginAs, zkLoginSession]);
+  }, [isConnected, isWalletConnected, zkLoginSession]);
 
   const getAddressSeed = async (): Promise<string> => {
     if (isUsingEnoki) {
