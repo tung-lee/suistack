@@ -13,6 +13,7 @@ const TransferNft = ({
   data: { label: string; objectId: string };
 }) => {
   const [addressTransfer, setAddressTransfer] = useState<string>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { address, executeTransactionBlockWithoutSponsorship } =
     useCustomWallet();
   const nodeId = useNodeId();
@@ -20,6 +21,7 @@ const TransferNft = ({
   const nodeList = useNodes();
   const handleTransfer = async () => {
     try {
+      setIsLoading(true);
       // console.log("transfer")
       const txb = new Transaction();
       console.log(data.objectId);
@@ -49,16 +51,25 @@ const TransferNft = ({
       console.log(response);
     } catch (error) {
       console.log(error);
+    } finally {
+      setIsLoading(false);
     }
   };
   return (
     <div>
       <Handle type="target" position={Position.Left} />
       <Input
-        placeholder="Enter Address"
+        placeholder="Enter Wallet's Address"
         onChange={(e) => setAddressTransfer(e.target.value)}
+        disabled={isLoading}
       />
-      <Button onClick={handleTransfer}>Transfer</Button>
+      <Button 
+        onClick={handleTransfer} 
+        className="mt-3"
+        disabled={isLoading}
+      >
+        {isLoading ? 'Transferring...' : 'Transfer'}
+      </Button>
       <Handle type="source" position={Position.Right} />
     </div>
   );

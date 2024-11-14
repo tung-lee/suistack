@@ -26,6 +26,7 @@ const FunctionNode = ({ data }: FunctionNodeProps) => {
   const { addSuccessNode } = useFlow();
   const nodeId = useNodeId();
   const nodeList = useNodes();
+  const [isLoading, setIsLoading] = useState(false);
   useEffect(() => {
     const packageId = data.name.split("::")[0];
     setFunctionName(
@@ -44,52 +45,59 @@ const FunctionNode = ({ data }: FunctionNodeProps) => {
   };
 
   const handleRun = async (): Promise<SuiTransactionBlockResponse> => {
-    const recipient = address!;
+    setIsLoading(true);
+    try {
+      const recipient = address!;
 
-    // console.log("recipient", recipient);
+      // console.log("recipient", recipient);
 
-    const txb = new Transaction();
-    const txArgs = inputs.map((input, index) => {
-      const argType = data.args[index].toLowerCase();
-      return argType === "u64"
-        ? txb.pure.u64(Number(input))
-        : txb.pure.string(input);
-    });
+      const txb = new Transaction();
+      const txArgs = inputs.map((input, index) => {
+        const argType = data.args[index].toLowerCase();
+        return argType === "u64"
+          ? txb.pure.u64(Number(input))
+          : txb.pure.string(input);
+      });
 
-    const target = `${data.name}`;
+      const target = `${data.name}`;
 
-    txb.moveCall({
-      arguments: txArgs,
-      target,
-    });
+      txb.moveCall({
+        arguments: txArgs,
+        target,
+      });
 
-    const response = await executeTransactionBlockWithoutSponsorship({
-      tx: txb,
-      network: "devnet",
-      includesTransferTx: true,
-      allowedAddresses: [recipient],
-      options: {
-        showEffects: true,
-        showObjectChanges: true,
-      },
-    });
+      const response = await executeTransactionBlockWithoutSponsorship({
+        tx: txb,
+        network: "devnet",
+        includesTransferTx: true,
+        allowedAddresses: [recipient],
+        options: {
+          showEffects: true,
+          showObjectChanges: true,
+        },
+      });
 
-    if (!response) {
-      throw new Error("Transaction failed");
+      if (!response) {
+        throw new Error("Transaction failed");
+      }
+      const sourceNode = nodeList.find((node) => node.id === nodeId);
+
+      const newNode = {
+        id: `success-${Date.now()}`,
+        type: "success",
+        position: {
+          x: (sourceNode?.position.x ?? 0) + 300,
+          y: sourceNode?.position.y ?? 0,
+        },
+        data: { url: response.digest },
+      };
+      addSuccessNode(newNode, nodeId!);
+      return response;
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoading(false);
     }
-    const sourceNode = nodeList.find((node) => node.id === nodeId);
-
-    const newNode = {
-      id: `success-${Date.now()}`,
-      type: "success",
-      position: {
-        x: (sourceNode?.position.x ?? 0) + 300,
-        y: sourceNode?.position.y ?? 0,
-      },
-      data: { url: response.digest },
-    };
-    addSuccessNode(newNode, nodeId!);
-    return response;
   };
   return (
     <div className="px-4 py-2 shadow-md rounded-md bg-white">
@@ -117,7 +125,9 @@ const FunctionNode = ({ data }: FunctionNodeProps) => {
           </div>
         ))}
 
-        <Button onClick={handleRun}>Run Contract</Button>
+        <Button onClick={handleRun} disabled={isLoading}>
+          {isLoading ? "Processing..." : "Run Contract"}
+        </Button>
         <Handle type="source" position={Position.Right} />
       </div>
     </div>

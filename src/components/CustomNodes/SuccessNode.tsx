@@ -4,15 +4,15 @@ import { Handle } from 'reactflow';
 
 interface SuccessNodeProps {
   data:{
-    url: string;
+    url: string|null;
 }}
 
 const SuccessNode = ({ data }: SuccessNodeProps) => {
   return (
     <div className="p-3 bg-green-100 rounded-md">
         <Handle type="target" position={Position.Left} />
-      <p className="text-green-700 font-medium">Completed Transaction!</p>
-      <a href={`https://devnet.suivision.xyz/txblock/${data.url}`} target="_blank" rel="noopener noreferrer" className="text-green-600 text-sm">https://devnet.suivision.xyz/txblock/{data.url}</a>
+      <p className="text-green-700 font-medium">{data.url? "Completed Transaction!":"Successfully!"}</p>
+      {data.url && <a href={`https://devnet.suivision.xyz/txblock/${data.url}`} target="_blank" rel="noopener noreferrer" className="text-green-600 text-sm">https://devnet.suivision.xyz/txblock/{data.url}</a>}
     </div>
   )
 }

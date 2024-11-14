@@ -28,6 +28,7 @@ export default function FormNftNode({ id, data }: FormNftNodeProps) {
     useCustomWallet();
   const { addSuccessNode } = useFlow();
   const nodeList = useNodes();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -60,7 +61,7 @@ export default function FormNftNode({ id, data }: FormNftNodeProps) {
 
   const handleWalrus = async () => {
     if (!file) return;
-
+    setIsLoading(true);
     try {
       const url = "https://publisher.walrus-testnet.walrus.space";
       const response = await fetch(`${url}/v1/store?epochs=1`, {
@@ -71,7 +72,9 @@ export default function FormNftNode({ id, data }: FormNftNodeProps) {
       if (response.status === 200) {
         const info = await response.json();
         console.log("Stored file response:", info);
-        await callContractNft(info.alreadyCertified.blobId);
+        const blobId = info.newlyCreated?.blobObject?.blobId || info.alreadyCertified?.blobObject?.blobId;
+
+        await callContractNft(blobId);
 
         return { info, media_type: file.type };
       } else {
@@ -79,26 +82,11 @@ export default function FormNftNode({ id, data }: FormNftNodeProps) {
       }
     } catch (error) {
       console.error("Error uploading to Walrus:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  //   const handleRun =async () => {
-  //     if (file) {
-  //       // const uploadByPinata = async (e: React.FormEvent<HTMLFormElement>) => {
-  // //   e.preventDefault();
-  // //   if (!selectedFile) return;
-  // //   try {
-  //     const upload = await pinata.upload.file(file)
-  //     const ipfsUrl = await pinata.gateways.convert(upload.IpfsHash)
-  //       console.log(ipfsUrl)
-  //      await callContractNft(ipfsUrl)
-  //     //     console.log(upload)
-  // //   } catch (error) {
-  // //     console.error(error)
-  // //   }
-  // // }
-  //     }
-  //   }
   const callContractNft = async (
     url: string
   ): Promise<SuiTransactionBlockResponse> => {
@@ -210,9 +198,19 @@ export default function FormNftNode({ id, data }: FormNftNodeProps) {
         />
       </div>
 
-      <Button className="w-full mt-4" onClick={handleWalrus} disabled={!file}>
-        {/* <ImageIHandleon className="w-4 h-4 mr-2" /> */}
-        Run
+      <Button 
+        className="w-full mt-4" 
+        onClick={handleWalrus} 
+        disabled={!file || isLoading}
+      >
+        {isLoading ? (
+          <div className="flex items-center justify-center">
+            <div className="animate-spin h-4 w-4 border-2 border-white rounded-full border-t-transparent mr-2"></div>
+            Processing...
+          </div>
+        ) : (
+          'Run'
+        )}
       </Button>
       <Handle type="source" position={Position.Right} id={`input-${id}`} />
     </div>
