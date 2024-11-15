@@ -5,7 +5,9 @@ import { useCustomWallet } from '../../contexts/CustomWallet';
 
 const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const { redirectToAuthUrl, isConnected, emailAddress,logout } = useCustomWallet();
+  const { redirectToAuthUrl, isConnected, emailAddress,logout, address } = useCustomWallet();
+
+  console.log("address", address);
 
   const toggleSidebar = () => {
     setIsOpen(!isOpen);
